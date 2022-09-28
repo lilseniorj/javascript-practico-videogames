@@ -12,6 +12,10 @@ const playerPosition = {
   x: undefined,
   y: undefined,
 };
+const giftPosition = {
+  x: undefined,
+  y: undefined,
+};
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -22,10 +26,10 @@ function setCanvasSize() {
   } else {
     canvasSize = window.innerHeight * 0.8;
   }
-
+  
   canvas.setAttribute('width', canvasSize);
   canvas.setAttribute('height', canvasSize);
-
+  
   elementsSize = canvasSize / 10;
 
   startGame();
@@ -55,21 +59,27 @@ function startGame() {
           playerPosition.y = posY;
           console.log({playerPosition});
         }
+      } else if (col == 'I') {
+        giftPosition.x = posX;
+        giftPosition.y = posY;
       }
+
       game.fillText(emoji, posX, posY);
-      // console.log({ row, rowI, col, colI });
     });
   });
 
-  // for (let row = 1; row <= 10; row++) {
-  //   for (let col = 1; col <= 10; col++) {
-  //       game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementsSize * col, elementsSize * row);
-  //   }
-  // }
   movePlayer();
 }
 
 function movePlayer() {
+  const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3);
+  const giftCollisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3);
+  const giftCollision = giftCollisionX && giftCollisionY;
+
+  if (giftCollision) {
+    console.log('Subiste de nisvel!');
+  }
+
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 }
 
