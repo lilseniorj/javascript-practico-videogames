@@ -8,7 +8,7 @@ const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
 const pResult = document.querySelector('#result');
-
+const reset_button = document.querySelector('#reset_button');
 
 let canvasSize;
 let elementsSize;
@@ -109,8 +109,21 @@ function startGame() {
       game.fillText(emoji, posX, posY);
     });
   });
+  reset_button.addEventListener('click', resetGame);
 
   movePlayer();
+}
+
+function showCollision() {
+  game.clearRect(0, 0, canvasSize, canvasSize);
+  game.font = '10px Verdana';
+  game.textAlign = 'center';
+  if(lives > 1) {
+      game.fillText('PERDISTE UNA VIDA, VUELVE A INTENTARLO', canvasSize/2, canvasSize/2);
+  }
+  else {
+      game.fillText('PERDISTE TODAS LAS VIDAS, VUELVE AL INICIO', canvasSize/2, canvasSize/2);
+  }
 }
 
 function movePlayer() {
@@ -131,6 +144,11 @@ function movePlayer() {
   if (enemyCollision) {
     levelFail();
   }
+  if (enemyCollision) {
+    console.log('Chocaste contra un enemigo :(');
+    showCollision();
+    setTimeout(levelLost, 2000);
+}
 
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 }
@@ -175,6 +193,10 @@ function gameWin() {
   }
 
   console.log({recordTime, playerTime});
+}
+
+function resetGame() {
+  location.reload();
 }
 
 function showLives() {
